@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<title>scoreboard</title>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<style>
+		
+		input.score {
+			width: 40px;
+		}
+		input.player {
+			width: 100px;
+		}
+
+		body {
+			width: 70%;
+			padding: 10px;
+		}
+		
+		.table-fit {
+    	width: 50%;
+		}
+
+	</style>
+</head>
+<body>
+
+	<h3>tavla skor tahtası</h3>
+	Kaçta Biter: <input type="text" id="winnerAt" value="5" disabled required>
+	<input type="button" id="toggle" value="degistir">
+	<hr><br>
+
+	<form action="/ekle" method="post" id="myForm">
+
+		
+		<input type="text" name="playerOne" id="playerOne" value="Ben" class="player" disabled>
+		<input type="number" id="playerOneScore" name="scoreOne" class="score" value="0">
+		<input id="playerOneAdd" type="button" value="+" class="btn btn-primary btn-sm">
+
+		<br><br>
+		
+		<input type="text" name="playerTwo" id="playerTwo" placeholder="Player 2" value='Babam' class="player">
+		<input type="number" name="scoreTwo" id="playerTwoScore" class="score" value="0">
+		<input id="playerTwoAdd" type="button" value="+" class="btn btn-primary btn-sm">
+		
+		<br>
+		<!-- <input type="hidden" name="winner" id="winner"> -->
+		<br>
+	<input type="submit" value="Ekle" class="btn btn-danger">
+	</form>
+
+
+
+	
+
+	
+
+	<br><br>
+	<hr>
+	<h2>önceki oyunlar</h2>
+	<h4>won: {{ won[0] }} - lost: {{ lost[0] }}</h4>
+	<hr>
+
+
+			<table class="table table-fit">
+
+			  <thead>
+			    <tr>
+			      <th scope="col">Win/Lost</th>
+			      <th scope="col">Skor</th>
+			      <th scope="col">Rakip</th>
+			      <th scope="col">Tarih</th>
+			      <th scope="col">Sil</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+
+
+			 
+			    {% for data in icerik %}
+			   
+			      {% if data[4] == 'WON' %}
+			      	<tr class='table-success'>
+			      {% else %}
+			      	<tr class='table-danger'>
+			      {% endif %}
+				      <td width="5%">{{ data[4] }}</td>
+				      <td>({{ data[1] }} - {{ data[2] }})</td>
+				      <td>{{ data[3] }}</td>
+				      <td>{{ data[5] }}</td>
+				      <td><a href='/delete/{{ data[0] }}'>sil</a></td>
+			      
+			    </tr>
+			    {% endfor %}
+			    
+			    
+			  </tbody>
+			</table>
+
+
+
+</body>
+<script>
+
+
+var buttonOne = document.getElementById("playerOneAdd");
+var buttonTwo = document.getElementById("playerTwoAdd");
+
+var winnerAt = document.getElementById("winnerAt").value;
+console.log(winnerAt);	
+
+
+
+buttonOne.onclick = function() {
+	var winnerAt = document.getElementById("winnerAt").value;
+	var playerOneScore = document.getElementById('playerOneScore').value;
+	playerOneScore = parseInt(playerOneScore) + 1;
+	document.getElementById('playerOneScore').value = playerOneScore;
+	if(playerOneScore == winnerAt){
+		//alert("winner");
+		//document.getElementById("winner").value = 'WON';
+		document.getElementById('myForm').submit();
+	}
+	
+}
+
+buttonTwo.onclick = function() {
+	var winnerAt = document.getElementById("winnerAt").value;
+	var playerTwoScore = document.getElementById('playerTwoScore').value;
+	playerTwoScore = parseInt(playerTwoScore) + 1;
+	document.getElementById('playerTwoScore').value = playerTwoScore;
+	if(playerTwoScore == winnerAt) {
+		//document.getElementById("winner").value = 'LOST';
+		document.getElementById('myForm').submit();
+	}
+}
+
+document.getElementById("toggle").onclick = function() {
+	
+	if(document.getElementById('winnerAt').disabled == true) {
+		document.getElementById('winnerAt').disabled = false;
+	}
+	else {
+		document.getElementById('winnerAt').disabled = true;
+	}
+}
+
+</script>
+</html>
