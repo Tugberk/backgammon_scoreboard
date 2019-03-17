@@ -44,7 +44,7 @@
 
 		<br><br>
 		
-		<input type="text" name="playerTwo" id="playerTwo" placeholder="Player 2" value='Babam' class="player">
+		<input type="text" name="playerTwo" id="playerTwo" placeholder="Player 2" value='' class="player">
 		<input type="number" name="scoreTwo" id="playerTwoScore" class="score" value="0">
 		<input id="playerTwoAdd" type="button" value="+" class="btn btn-primary btn-sm">
 		
@@ -53,12 +53,6 @@
 		<br>
 	<input type="submit" value="Ekle" class="btn btn-danger">
 	</form>
-
-
-
-	
-
-	
 
 	<br><br>
 	<hr>
@@ -111,10 +105,7 @@
 var buttonOne = document.getElementById("playerOneAdd");
 var buttonTwo = document.getElementById("playerTwoAdd");
 
-var winnerAt = document.getElementById("winnerAt").value;
-console.log(winnerAt);	
-
-
+var winnerAt = document.getElementById("winnerAt").value;	
 
 buttonOne.onclick = function() {
 	var winnerAt = document.getElementById("winnerAt").value;
@@ -122,8 +113,6 @@ buttonOne.onclick = function() {
 	playerOneScore = parseInt(playerOneScore) + 1;
 	document.getElementById('playerOneScore').value = playerOneScore;
 	if(playerOneScore == winnerAt){
-		//alert("winner");
-		//document.getElementById("winner").value = 'WON';
 		document.getElementById('myForm').submit();
 	}
 	
@@ -135,7 +124,6 @@ buttonTwo.onclick = function() {
 	playerTwoScore = parseInt(playerTwoScore) + 1;
 	document.getElementById('playerTwoScore').value = playerTwoScore;
 	if(playerTwoScore == winnerAt) {
-		//document.getElementById("winner").value = 'LOST';
 		document.getElementById('myForm').submit();
 	}
 }
